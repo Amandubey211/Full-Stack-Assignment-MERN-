@@ -12,7 +12,7 @@ interface Product {
 const ProductPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { generateInvoice } = useGenerateInvoice();
+  const { generateInvoice, loading } = useGenerateInvoice();
 
   const addProduct = (product: Product) => {
     setProducts((prevProducts) => [...prevProducts, product]);
@@ -59,7 +59,7 @@ const ProductPage: React.FC = () => {
               onClick={handleGeneratePDF}
               className="mr-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition duration-300"
             >
-              Generate PDF
+              {loading ? "Generating" : "Generate PDF"}
             </button>
           )}
         </div>

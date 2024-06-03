@@ -1,8 +1,9 @@
-import { useCallback } from "react";
+import { useState, useCallback } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+
 const BACKEND = process.env.REACT_APP_BACKEND_URL;
-console.log(BACKEND);
+
 interface Product {
   name: string;
   qty: number;
@@ -10,10 +11,13 @@ interface Product {
 }
 
 const useGenerateInvoice = () => {
+  const [loading, setLoading] = useState(false);
+
   const generateInvoice = useCallback(async (products: Product[]) => {
     // Retrieve the token from local storage
     const token = localStorage.getItem("Token");
 
+    setLoading(true);
     try {
       const response = await axios.post(
         `${BACKEND}/api/invoice/generate_invoice`,
@@ -45,10 +49,12 @@ const useGenerateInvoice = () => {
     } catch (error) {
       toast.error("Error generating invoice");
       console.error("Error generating invoice:", error);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
-  return { generateInvoice };
+  return { generateInvoice, loading };
 };
 
 export default useGenerateInvoice;
