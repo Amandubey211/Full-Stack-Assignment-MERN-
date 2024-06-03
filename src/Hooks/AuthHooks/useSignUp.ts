@@ -10,8 +10,8 @@ import {
 } from "../../Utils/Validations";
 import { setisLoginPage } from "../../Redux/Slice/FormSlice";
 
-const API_URL = process.env.REACT_APP_API_URL;
-
+const BACKEND = process.env.REACT_APP_BACKEND_URL;
+console.log(BACKEND);
 interface SignUpDetails {
   name: string;
   email: string;
@@ -22,7 +22,6 @@ const useSignUp = () => {
   const [signupLoading, setSignupLoading] = useState<boolean>(false);
   const [SignupError, setReturnError] = useState<string>(""); // New returnError state
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const Signup = async (signUpDetails: SignUpDetails) => {
     try {
@@ -52,10 +51,9 @@ const useSignUp = () => {
       }
 
       const { data } = await axios.post(
-        `http://localhost:5000/api/auth/register`,
+        `${BACKEND}/api/auth/register`,
         signUpDetails
       );
-      console.log(data);
 
       if (data.success) {
         dispatch(setisLoginPage(true));

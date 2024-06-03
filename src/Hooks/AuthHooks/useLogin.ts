@@ -5,10 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../Redux/Slice/AuthSlice";
 import { setUserDetails } from "../../Redux/Slice/UserSlice";
-
-const API_URL = process.env.REACT_APP_API_URL;
-console.log(API_URL);
-
+const BACKEND = process.env.REACT_APP_BACKEND_URL;
+console.log(BACKEND);
 interface LoginDetails {
   email: string;
   password: string;
@@ -24,7 +22,6 @@ const useLogin = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        console.log(process.env.REACT_APP_API_URL);
         const { data } = await axios.get(
           `http://localhost:5000/api/auth/validate`
         );
@@ -45,7 +42,7 @@ const useLogin = () => {
     try {
       setLoading(true);
       const { data } = await axios.post(
-        `http://localhost:5000/api/auth/login`,
+        `${BACKEND}/api/auth/login`,
         loginDetails
       );
       if (data.success) {
